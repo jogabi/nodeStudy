@@ -107,14 +107,18 @@ app.put('/edit', function (req, res) {
 })
 
 
-/* 미들웨어 세팅 세션 비밀번호 test123 */
-app.use(session({ secret: 'test123', resave: true, saveUninitialized: false }))
+/* 미들웨어 세팅 세션 비밀번호 123
+요청 응답 중간에 코드 동작 실행시키고 싶을때
+*/
+app.use(session({ secret: '123', resave: true, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
 
-/* 로그인 하고 나서 실행시켜줄것  */
-app.post('/login', function (req, res) {
-  /* id password 맞는지 체크 */
+/* 로그인 하고 나서 실행시켜줄것 */
+app.get('/login', function (req, res) {
+  res.render('login.ejs')
+
+
 
 
 })
