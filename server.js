@@ -124,6 +124,7 @@ app.get('/login', function (req, res) {
 
 /* 인증 체크  */
 app.post('/login', passport.authenticate('local', {
+  /* 로그인 후 체크  */
   failureRedirect: '/fail'
 }), function (req, res) {
   res.redirect('/')
@@ -136,11 +137,14 @@ passport.use(new LocalStrategy({
   session: true,
   passReqToCallback: false,
 }, function (inputId, inputPw, done) {
-  console.log('입력값 출 가능 ', req.body);
-  console.log(inputId);
-  console.log(inputPw);
+
+  /* 아이디 비밀번호 검증 부분 */
+  // console.log('입력값 출 가능 ', req.body);
+  // console.log('입력값', inputId);
+  // console.log('입력비번', inputPw);
 
   db.collection('login').findOne({ id: inputId }, function (error, result) {
+    console.log('result', result);
     if (error) return done(error)
     if (!result) return done(null, false, { message: '존재하지않음' })
     if (inputPw == result.pw) {
@@ -149,7 +153,7 @@ passport.use(new LocalStrategy({
       return done(null, false, { message: '틀림 ' })
     }
   })
-}))
+}));
 
 
 
