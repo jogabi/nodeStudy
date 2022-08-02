@@ -145,13 +145,20 @@ passport.use(new LocalStrategy({
 
   db.collection('login').findOne({ id: inputId }, function (error, result) {
     console.log('result', result);
+
+
     if (error) return done(error)
+
+    /* 3개 파라미터 추가 가능함 */
     if (!result) return done(null, false, { message: '존재하지않음' })
+
+    /* 비밀번호 일치할 때  */
     if (inputPw == result.pw) {
-      return done(null, result)
+      return done(null, result) /* 라이브러리 문접  */
     } else {
       return done(null, false, { message: '틀림 ' })
     }
+
   })
 }));
 
