@@ -148,7 +148,7 @@ passport.use(new LocalStrategy({
 
 
     if (error) return done(error)
-
+    d
     /* 3개 파라미터 추가 가능함 */
     if (!result) return done(null, false, { message: '존재하지않음' })
 
