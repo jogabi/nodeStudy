@@ -127,6 +127,12 @@ app.post('/login', passport.authenticate('local', {
   res.redirect('/')
 })
 
+app.get('/fail', function (req, res) {
+  res.render('fail.ejs');
+})
+
+
+
 /* 로그인 검사 */
 passport.use(new LocalStrategy({
   usernameField: 'id',
@@ -147,7 +153,7 @@ passport.use(new LocalStrategy({
     라이브러리 문법
     */
 
-    /* 비밀번호 일치할 때e
+    /* 비밀번호 일치할 때는
     대신 보안이 좋지 않음
     추가 내용은 구글링으로 해결
     */
@@ -159,6 +165,7 @@ passport.use(new LocalStrategy({
 
   })
 }));
+
 
 /* 로그인 검사 끝날시 세션데이터 검사 */
 passport.serializeUser(function (user, done) { /* 세션 저장 */
