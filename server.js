@@ -131,10 +131,12 @@ app.get('/fail', function (req, res) {
   res.render('fail.ejs');
 })
 
-app.get('/myapge', loginCheck, function (req, res) {
+/* 마이페이지 */
+app.get('/mypage', loginCheck, function (req, res) {
   res.render('mypage.ejs')
 })
-
+/* 로그인 했는지 체크 */
+/* 요청 응답 next  */
 function loginCheck(req, res, next) {
   if (req.user) {
     next()
