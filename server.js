@@ -129,9 +129,7 @@ app.post('/login', passport.authenticate('local', {
   res.redirect('/')
 })
 
-/*
 
-*/
 passport.use(new LocalStrategy({
   usernameField: 'id',
   passwordField: 'pw',
