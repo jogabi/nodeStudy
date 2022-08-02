@@ -129,13 +129,19 @@ app.post('/login', passport.authenticate('local', {
   res.redirect('/')
 })
 
+/*
 
+*/
 passport.use(new LocalStrategy({
   usernameField: 'id',
   passwordField: 'pw',
   session: true,
   passReqToCallback: false,
 }, function (inputId, inputPw, done) {
+  console.log('입력값 출 가능 ', req.body);
+  console.log(inputId);
+  console.log(inputPw);
+
   db.collection('login').findOne({ id: inputId }, function (error, result) {
     if (error) return done(error)
     if (!result) return done(null, false, { message: '존재하지않음' })
