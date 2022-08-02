@@ -117,9 +117,6 @@ app.use(passport.session())
 /* 로그인 하고 나서 실행시켜줄것 */
 app.get('/login', function (req, res) {
   res.render('login.ejs');
-
-
-
 })
 
 /* 인증 체크  */
@@ -130,7 +127,7 @@ app.post('/login', passport.authenticate('local', {
   res.redirect('/')
 })
 
-
+/* 로그인 검사 */
 passport.use(new LocalStrategy({
   usernameField: 'id',
   passwordField: 'pw',
@@ -138,25 +135,23 @@ passport.use(new LocalStrategy({
   passReqToCallback: false,
 }, function (inputId, inputPw, done) {
 
-  /* 아이디 비밀번호 검증 부분 */
-  // console.log('입력값 출 가능 ', req.body);
-  // console.log('입력값', inputId);
-  // console.log('입력비번', inputPw);
-
   db.collection('login').findOne({ id: inputId }, function (error, result) {
     console.log('result', result);
 
-
     if (error) return done(error)
-    d
     /* 3개 파라미터 추가 가능함 */
-    if (!result) return done(null, false, { message: '존재하지않음' })
+    if (!result) return done(null, false, { message: '존재하지않음' }) /* 결과가 없을때  */
 
-    /* 비밀번호 일치할 때
+    /*
+    그럼 done 뭔지?
+    라이브러리 문법
+    */
+
+    /* 비밀번호 일치할 때e
     대신 보안이 좋지 않음
     추가 내용은 구글링으로 해결
     */
-    if (inputPw == result.pw) {
+    if (inputPw == result.password) {
       return done(null, result) /* 라이브러리 문접  */
     } else {
       return done(null, false, { message: '틀림 ' })
@@ -165,6 +160,13 @@ passport.use(new LocalStrategy({
   })
 }));
 
+/* 로그인 검사 끝날시 세션데이터 검사 */
+passport.serializeUser(function (user, done) { /* 세션 저장 */
+  done(null, user.id)
+})
+passport.deserializeUser(function (id, done) { /* 이사람이 어떤사람인지 해석함 */
+  done(null, {})
+})
 
 
 /* 로그인 페이지 제작 & 라우팅 npm */
