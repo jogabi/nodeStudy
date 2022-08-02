@@ -131,6 +131,17 @@ app.get('/fail', function (req, res) {
   res.render('fail.ejs');
 })
 
+app.get('/myapge', loginCheck, function (req, res) {
+  res.render('mypage.ejs')
+})
+
+function loginCheck(req, res, next) {
+  if (req.user) {
+    next()
+  } else {
+    res.send('로그인을 하세요')
+  }
+}
 
 
 /* 로그인 검사 */
@@ -162,7 +173,6 @@ passport.use(new LocalStrategy({
     } else {
       return done(null, false, { message: '틀림 ' })
     }
-
   })
 }));
 
@@ -174,7 +184,6 @@ passport.serializeUser(function (user, done) { /* 세션 저장 */
 passport.deserializeUser(function (id, done) { /* 이사람이 어떤사람인지 해석함 */
   done(null, {})
 })
-
 
 /* 로그인 페이지 제작 & 라우팅 npm */
 /* session 방식 로그인 구현
