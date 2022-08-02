@@ -116,12 +116,38 @@ app.use(passport.session())
 
 /* 로그인 하고 나서 실행시켜줄것 */
 app.get('/login', function (req, res) {
-  res.render('login.ejs')
-
+  res.render('login.ejs');
 
 
 
 })
+
+/* 인증 체크  */
+app.post('/login', passport.authenticate('local', {
+  failureRedirect: '/fail'
+}), function (req, res) {
+  res.redirect('/')
+})
+
+
+passport.use(new LocalStrategy({
+  usernameField: 'id',
+  passwordField: 'pw',
+  session: true,
+  passReqToCallback: false,
+}, function (inputId, inputPw, done) {
+  db.collection('login').findOne({ id: inputId }, function (error, result) {
+    if (error) return done(error)
+    if (!result) return done(null, false, { message: '존재하지않음' })
+    if (inputPw == result.pw) {
+      return done(null, result)
+    } else {
+      return done(null, false, { message: '틀림 ' })
+    }
+  })
+}))
+
+
 
 /* 로그인 페이지 제작 & 라우팅 npm */
 /* session 방식 로그인 구현
