@@ -152,7 +152,10 @@ passport.use(new LocalStrategy({
     /* 3개 파라미터 추가 가능함 */
     if (!result) return done(null, false, { message: '존재하지않음' })
 
-    /* 비밀번호 일치할 때  */
+    /* 비밀번호 일치할 때
+    대신 보안이 좋지 않음
+    추가 내용은 구글링으로 해결
+    */
     if (inputPw == result.pw) {
       return done(null, result) /* 라이브러리 문접  */
     } else {
