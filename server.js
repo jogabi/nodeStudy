@@ -11,15 +11,19 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const session = require('express-session');
 
+// 환경변수 라이브러리 세팅
+require('dotenv').config()
+
+
+
 var db;
-
-
 
 app.set('view engine', 'ejs');
 /* css 파일 쓰고 싶을떄 public  */
 app.use('/public', express.static('public'))
 
-MongoClient.connect('mongodb+srv://gabi:1234@cluster0.daut0.mongodb.net/?retryWrites=true&w=majority', function (error, client) {
+/* env 파일을 별도로 만들어서 따로 세팅함 */
+MongoClient.connect(process.env.DB_URL, function (error, client) {
   if (error) return console.log(error);
   db = client.db('todoapp')
 
@@ -87,6 +91,8 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html')
 })
 
+
+
 app.get('/edit/:id', function (req, res) {
   /* url 파라미터 넘기기 */
   db.collection('post').findOne({ _id: parseInt(req.params.id, 10) }, function (error, result) {
@@ -118,6 +124,7 @@ app.use(passport.session())
 app.get('/login', function (req, res) {
   res.render('login.ejs');
 })
+
 
 /* 인증 체크  */
 app.post('/login', passport.authenticate('local', {
@@ -208,3 +215,11 @@ helmet 라이브러리 보안
 Oauth 등 다른 로그인 방식1
 express-session세션이 많아지면 메모리 문제 생김 / connect-mongo 라이브러리 DB에 세션 데이터를 저장해서 사용하기
 */
+
+app.get('/search', (req, res) => {
+  console.log(req.query);
+  db.collection('post').find({ title: req.query.value }).toArray(function (error, result) {
+    res.render('search.ejs', { search: result })
+    console.log(result);
+  })
+})

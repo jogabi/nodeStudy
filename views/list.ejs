@@ -15,9 +15,15 @@
 
 <body>
 
-  <div class="container mt-4 text-center">
+<div class="container mt-4 text-center">
+  <div class="mb-4">
 
-    <a href="write">글 작성 페이지 이동</a>
+
+      <input type="text" placeholder="검색" id="keyword">
+      <button id="search">검색</button>
+  </div>
+
+
 
     <ul class="list-group">
       <% for(var i = 0 ; i< posts.length ; i ++){ %>
@@ -70,6 +76,13 @@
 
       })
     })
+
+
+    $('#search').click(function(){
+      let getKeyword = $('#keyword').val();
+      window.location.replace('/search?value=' + getKeyword)
+    });
+
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
