@@ -217,11 +217,11 @@ express-session세션이 많아지면 메모리 문제 생김 / connect-mongo �
 */
 
 app.get('/search', (req, res) => {
-  console.log(req.query);
-  db.collection('post').find({ title: req.query.value }).toArray(function (error, result) {
+  /* 정규식 추가 가능함  */
+  /* 게시물이 많을 떄 문제가 됨 - find  */
+  db.collection('post').find({ $text: { $search: req.query.value } }).toArray(function (error, result) {
+    console.log(result);
     res.render('search.ejs', { search: result }) /* 옆에 데이터 보냄 검색결과 */
     /* 정확히 일치하는 것만 찾기 정규식 */
-
-
   })
 })
