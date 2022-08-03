@@ -133,8 +133,10 @@ app.get('/fail', function (req, res) {
 
 /* 마이페이지 */
 app.get('/mypage', loginCheck, function (req, res) {
+  console.log(req.user);/* 새로고침 할 떄마다 유저정보 나옴 */
   res.render('mypage.ejs')
 })
+
 /* 로그인 했는지 체크 */
 /* 요청 응답 next  */
 function loginCheck(req, res, next) {
@@ -183,8 +185,13 @@ passport.use(new LocalStrategy({
 passport.serializeUser(function (user, done) { /* 세션 저장 */
   done(null, user.id)
 })
+/* 유저정보 여려가지로 저장될 수 있음 */
+
 passport.deserializeUser(function (id, done) { /* 이사람이 어떤사람인지 해석함 */
-  done(null, {})
+  /* db에서 usesr.id 로 유저 찾은 뒤에 유저 정보를 여기에 넣음 */
+  db.collection('login').findOne({ id: id }, function (error, result) {
+    done(null, result) /* db결과 */ /* 유저정보를 마이페이지에 출력 할 수 있음  */
+  })
 })
 
 /* 로그인 페이지 제작 & 라우팅 npm */
