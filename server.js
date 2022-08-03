@@ -199,4 +199,12 @@ passport.deserializeUser(function (id, done) { /* 이사람이 어떤사람인�
 npm install passport passport-local express-session
 */
 
-
+/*
+서버 공부 해봐야 할 것들
+아이디 길이 검사
+DB 저장시 빈칸 확인 , 길이 정규식 확인
+helmet 라이브러리 보안
+이미지 업로드 서버에서 이미지 처리 (압축, 저장, 리사이즈)
+Oauth 등 다른 로그인 방식
+express-session connect-mongo 라이브러리 DB에 세션 데이터를 저장해서 사용하기
+*/
