@@ -134,7 +134,7 @@ app.get('/fail', function (req, res) {
 /* 마이페이지 */
 app.get('/mypage', loginCheck, function (req, res) {
   console.log(req.user);/* 새로고침 할 떄마다 유저정보 나옴 */
-  res.render('mypage.ejs')
+  res.render('mypage.ejs', { user: req.user })
 })
 
 /* 로그인 했는지 체크 */
