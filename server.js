@@ -201,6 +201,14 @@ passport.deserializeUser(function (id, done) { /* 이사람이 어떤사람인�
   })
 })
 
+
+app.post('/register', function (req, res) {
+  db.collection('login').insertOne({ id: req.body.id, pw: req.body.pw }, function (error, result) {
+    res.redirect('/')
+  });
+
+})
+
 /* 로그인 페이지 제작 & 라우팅 npm */
 /* session 방식 로그인 구현
 npm install passport passport-local express-session
