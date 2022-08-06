@@ -201,10 +201,14 @@ passport.deserializeUser(function (id, done) { /* 이사람이 어떤사람인�
   })
 })
 
-/* 회원가입 */
+/* 회원가입 데이터 저장 */
 app.post('/register', function (req, res) {
+  /* input name 을 넘김 req.body.id */
+
+  /* 중복인지 아닌지 검사하기 */
   db.collection('login').insertOne({ id: req.body.id, pw: req.body.pw }, function (error, result) {
     res.redirect('/')
+
   });
 
 })
@@ -239,7 +243,9 @@ app.get('/search', (req, res) => {
   },
   { $sort: { _id: 1 } },
   { $limit: 10 },
-  { $project: { title: 1, _id: 0, score: { $meta: "searchScore" } } }, /* 원하는 검색결과 */
+  {
+    $project: { title: 1, _id: 0, score: { $meta: "searchScore" } }
+  }, /* 원하는 검색결과 */
   ]
 
   /* 게시판 만들떄 필요 없음 */
