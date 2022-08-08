@@ -46,15 +46,8 @@ app.get('/write', (req, res) => {
 })
 
 app.use(express.urlencoded({ extended: true }))
-app.post('/add', function (req, res) {
 
-  db.collection('counter').findOne({ name: '게시물 갯수' }, function (error, res) {
-    let total = res.totalPost;
-    db.collection('post').insertOne({ _id: total + 1, title: req.body.title, date: req.body.date }, function () {
-      db.collection('counter').updateOne({ name: '게시물 갯수' }, { $set: { totalPost: total + 1 } })
-    })
-  });
-})
+
 
 
 app.get('/list', function (req, res) {
@@ -131,7 +124,7 @@ app.post('/login', passport.authenticate('local', {
   /* 로그인 후 체크  */
   failureRedirect: '/fail'
 }), function (req, res) {
-  res.redirect('/')
+  res.redirect('/write')
 })
 
 app.get('/fail', function (req, res) {
@@ -153,6 +146,20 @@ function loginCheck(req, res, next) {
     res.send('로그인을 하세요')
   }
 }
+
+
+/* 글발행 */
+app.post('/add', function (req, res) {
+  db.collection('counter').findOne({ name: '게시물 갯수' }, function (error, res) {
+    let total = res.totalPost;
+    let getUserDb = { _id: total + 1, title: req.body.title, date: req.body.date, writeId: req.user._id }
+
+    db.collection('post').insertOne(getUserDb, function () {
+      db.collection('counter').updateOne({ name: '게시물 갯수' }, { $set: { totalPost: total + 1 } })
+    })
+  });
+})
+
 
 
 /* 로그인 검사 */
