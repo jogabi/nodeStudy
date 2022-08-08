@@ -271,4 +271,4 @@ app.get('/search', (req, res) => {
   })
 })
 
-app.use('/', require('./routes/shop.js'))
+app.use('/shop', require('./routes/shop.js'))
