@@ -270,5 +270,5 @@ app.get('/search', (req, res) => {
     /* 정확히 일치하는 것만 찾기 정규식 */
   })
 })
-
+/* shop.js 파일 연결  */
 app.use('/shop', require('./routes/shop.js'))
