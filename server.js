@@ -126,8 +126,6 @@ app.delete('/delete', function (req, res) {
 
     res.status(200).send({ message: '성공했습니다' });
   })
-
-
 })
 
 
@@ -135,7 +133,6 @@ app.delete('/delete', function (req, res) {
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html')
 })
-
 
 
 app.get('/fail', function (req, res) {
@@ -273,3 +270,5 @@ app.get('/search', (req, res) => {
     /* 정확히 일치하는 것만 찾기 정규식 */
   })
 })
+
+app.use('/', require('./routes/shop.js'))
