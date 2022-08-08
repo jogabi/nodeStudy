@@ -67,23 +67,6 @@ app.get('/detail/:id', function (req, res) {
   })
 })
 
-/* 데이터 삭제시 */
-/* 경로로 요청을 하면 게시물 번호를 삭제함 */
-app.delete('/delete', function (req, res) {
-  /* 보낸 데이터출력 여기에 들어있음 */
-
-  req.body._id = parseInt(req.body._id, 10)
-  /* 전송 */
-  db.collection('post').deleteOne(req.body, function (error, result) {
-    console.log('삭제완료');
-    res.status(200).send({ message: '성공' })
-  })
-})
-
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html')
-})
-
 
 
 app.get('/edit/:id', function (req, res) {
@@ -126,6 +109,34 @@ app.post('/login', passport.authenticate('local', {
 }), function (req, res) {
   res.redirect('/write')
 })
+
+
+/* 데이터 삭제시 */
+/* 경로로 요청을 하면 게시물 번호를 삭제함 */
+app.delete('/delete', function (req, res) {
+  /* 보낸 데이터출력 여기에 들어있음 */
+  console.log(req.user._id);
+
+  req.body._id = parseInt(req.body._id, 10)
+  let data = { _id: req.body._id, writeId: req.user._id }
+
+  db.collection('post').deleteOne(data, function (error, result) {
+    console.log('삭제완료');
+    console.log('에러', error)
+
+    res.status(200).send({ message: '성공했습니다' });
+  })
+
+
+})
+
+
+
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html')
+})
+
+
 
 app.get('/fail', function (req, res) {
   res.render('fail.ejs');
