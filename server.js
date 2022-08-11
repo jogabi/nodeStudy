@@ -297,6 +297,12 @@ var storage = multer.diskStorage({
   }
 })
 
+
+app.get('/image/:imageName', function (req, res) {
+  res.sendFile(__dirname + '/public/image/' + req.params.imageName)
+})
+
+
 var upload = multer({ storage: storage })
 
 /* 이미지 업로드 페이지 : 이미지 저장함 */
