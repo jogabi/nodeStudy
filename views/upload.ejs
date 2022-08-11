@@ -11,19 +11,20 @@
   <link rel="stylesheet" href="/public/main.css">
   <title>Hworld!</title>
 </head>
+
 <body>
 
   <div class="container mt-4">
     <h4 class="text-center">
-      상세페이지
+      업로드 페이지
     </h4>
 
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title"> <%= data.title %></h5>
-        <p class="card-text"> <%= data.date %></p>
-      </div>
-    </div>
+    <!-- 서버로 폼 전송방식 -->
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" >
+
+    </form>
+
   </div>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js">
