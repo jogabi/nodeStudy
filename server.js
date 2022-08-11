@@ -272,3 +272,40 @@ app.get('/search', (req, res) => {
 })
 /* shop.js 파일 연결  */
 app.use('/shop', require('./routes/shop.js'))
+
+
+
+/* 이미지 올릴때 편한 라이브러리 */
+let multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/image')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  },
+  filefilter: function (req, file, cb) {
+    var ext = path.extname(file.originalname)
+    if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+      return callback(new Error('png jpg만 업로드 하시오'))
+
+    }
+    callback(null, true)
+  },
+  limits: {
+    fileSize: 1024 * 1024
+  }
+})
+
+var upload = multer({ storage: storage })
+
+/* 이미지 업로드 페이지 : 이미지 저장함 */
+app.get('/upload', function (req, res) {
+  /* 이미지 하드에 저장하는게 저렴함 */
+  res.render('upload.ejs')
+
+})
+
+app.post('/upload', upload.single('profile'), function (req, res) {
+  res.send('업로드 완료!!!!');
+})
