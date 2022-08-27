@@ -315,3 +315,13 @@ app.get('/upload', function (req, res) {
 app.post('/upload', upload.single('profile'), function (req, res) {
   res.send('업로드 완료!!!!');
 })
+
+/* 채팅 기능 추가
+채팅을 누르면 게시물 발행
+댓글 남길 수 있게 부모게시물 추가
+
+채팅방 게시물 언제 실행 되는지
+*/
+
+
+/* 댓글 기능 이랑 동일함 */
