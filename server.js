@@ -320,8 +320,22 @@ app.post('/upload', upload.single('profile'), function (req, res) {
 채팅을 누르면 게시물 발행
 댓글 남길 수 있게 부모게시물 추가
 
-채팅방 게시물 언제 실행 되는지
+채팅방 게시물 언제 실행 되는
 */
 
+const { ObjectId } = require('mongodb');
+
+app.post('/chatroom', loginCheck, function (req, res) {
+  /* 채팅을 만든 유저 정보 저장  */
+  var writeUser = {
+    title: "채팅방 상황",
+    member: [ObjectId(req.body.userId), req.user._id], //object 형식으로 저장
+    date: new Date()
+  }
+  db.collection('chatroom').insertOne(writeUser).then((result) => {
+
+  })
+
+})
 
 /* 댓글 기능 이랑 동일함 */
