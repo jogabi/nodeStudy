@@ -326,17 +326,37 @@ app.post('/upload', upload.single('profile'), function (req, res) {
 const { ObjectId } = require('mongodb');
 app.post('/chatroom', loginCheck, function (req, res) {
 
-  console.log('req.body.userId', req.body.userId);
+
   /* 채팅을 만든 유저 정보 저장  */
   var writeUser = {
     title: "채팅방 상황",
     member: [req.body.userId, req.user._id], //object 형식으로 저장
     date: new Date()
   }
+
+
   db.collection('chatroom').insertOne(writeUser).then((result) => {
+
+
+    /*
+    result ==
+    acknowledged: true,
+    insertedId: new ObjectId("630c5e867afd9c67deec3969")
+    */
+  })
+})
+
+
+app.get('/chat', loginCheck, function (req, res) {
+  db.collection('chatroom').find({ member: req.user._id }).toArray().then((result) => {
+    console.log(result);
+    res.render('chat.ejs', { data: result })
 
   })
 
 })
+
+
+
 
 /* 댓글 기능 이랑 동일함 */
