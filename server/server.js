@@ -18,6 +18,12 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../react-project/build/index.html'));
 });
 
+app.get('/test', function (req, res) {
+  res.json({ name: 'jojo' })
+});
+
+
+
 
 
 app.get('*', function (req, res) {
