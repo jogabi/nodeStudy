@@ -359,7 +359,7 @@ app.get('/chat', loginCheck, function (req, res) {
 data post 했을때 message
 db에 저장한다 변수들 4개정보를
 */
-app.post('/message', function (req, res) {
+app.post('/message', loginCheck, function (req, res) {
   var dbChat = {
     parent: ObjectId(req.body.parent),
     content: req.body.content,
