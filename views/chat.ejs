@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="/public/main.css">
   <title>Hworld!</title>
 </head>
+
+
 <body>
 <div class="container mt-4 text-center">
   <div class="mb-4">
@@ -17,7 +19,7 @@
   </div>
     <ul class="list-group">
       <% for(var i = 0 ; i< data.length ; i ++){ %>
-      <li class=" list-group-item">
+      <li class=" list-group-item" data-id="<%=  data[i]._id %>">
         <div>
           채팅방 제목 :  <%= data[i].title %>
         </div>
@@ -26,7 +28,8 @@
         </div>
         <div>
         </div>
-        <button class="btn btn-secondary" id="send">전송하기</button>
+        <input  class="form-control" id="chat-input">
+           <button class="btn btn-secondary" id="send">전송하기</button>
       </li>
       <% } %>
     </ul>
@@ -37,14 +40,29 @@
   </script>
 
   <script>
+      var clickId
 
-/* 전송버튼 클릭하면
-디비 저장 게시물 정보 저장되어야
-유저 콘텐츠 아이디 게시물
+    $('.list-group-item').click(function(){
+      clickId= this.dataset.id
+    })
 
-var 보낼거
+    $('#send').click(function(){
 
-*/
+      /* 전송버튼 클릭하면
+      디비 저장 게시물 정보 저장되어야
+      유저 콘텐츠 아이디 게시물
+      var 보낼거
+      */
+      var chatContent = $('#chat-input').val()
+      var dbList= {
+        parent : clickId,
+        content : chatContent
+      }
+      $.post('/message',dbList).then(()=>{
+        console.log('성공!');
+      })
+    })
+
 
 
   </script>

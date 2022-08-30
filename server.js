@@ -351,12 +351,23 @@ app.get('/chat', loginCheck, function (req, res) {
   db.collection('chatroom').find({ member: req.user._id }).toArray().then((result) => {
     console.log(result);
     res.render('chat.ejs', { data: result })
-
   })
-
 })
 
 
-
-
-/* 댓글 기능 이랑 동일함 */
+/*
+data post 했을때 message
+db에 저장한다 변수들 4개정보를
+*/
+app.post('/message', function (req, res) {
+  var dbChat = {
+    parent: ObjectId(req.body.parent),
+    content: req.body.content,
+    userid: req.user._id,
+    date: new Date()
+  }
+  db.collection('message').insertOne(dbChat).then((result) => {
+    console.log('저장', result);
+    res.send('저장성공')
+  })
+})
