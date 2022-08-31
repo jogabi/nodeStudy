@@ -16,6 +16,10 @@ app.get('/beauty', function (req, res) {
   res.send('뷰티용품 사기')
 })
 
+app.get('/write', function (req, res) {
+  res.sendFile(__dirname + 'write.html')
+})
+
 app.get('/', function (req, res) {
 
   res.sendFile(__dirname + '/index.html')
