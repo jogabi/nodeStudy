@@ -46,3 +46,14 @@ app.post('/add', (req, res) => {
 })
 
 
+/* list 꺼내기 */
+
+app.get('/list', function (req, res) {
+  db.collection('post').find().toArray(function (error, result) {
+    console.log(result);
+    /* ejs 파일 보내기 */
+    res.render('list.ejs', { posts: result })
+  })
+
+})
+
