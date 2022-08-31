@@ -10,3 +10,8 @@ app.get('/pet', function (req, res) {
   res.send('펫용품 테스트')
 
 })
+
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html')
+
+})
