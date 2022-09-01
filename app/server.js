@@ -37,9 +37,6 @@ app.get('/write', (req, res) => {
 
 /* 글쓰기 전송받음 */
 app.post('/add', (req, res) => {
-  console.log(req.body.title);
-  console.log(req.body.date);
-
   db.collection('post').insertOne({ title: req.body.title, date: req.body.date }, function () {
     res.send("전송완료")
   })
@@ -54,6 +51,5 @@ app.get('/list', function (req, res) {
     /* ejs 파일 보내기 */
     res.render('list.ejs', { posts: result })
   })
-
 })
 
