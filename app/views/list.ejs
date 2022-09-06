@@ -20,7 +20,7 @@
     <% for (var i = 0; i < posts.length; i ++) { %>
       <h4>제목 : <%= posts[i].title %></h4>
       <p>내용 : <%= posts[i].date %></p>
-      <button class="delete" data-id="<%= posts[i]._id %>" >삭제</button>
+      <button class="delete" data-id="<%= posts[i].id %>" >삭제</button>
       <p>----------------------------</p>
       <% } %>
     </div>
