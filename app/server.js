@@ -23,6 +23,27 @@ app.use(session({ secret: '비밀코드', resave: true, saveUninitialized: false
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStrategy({
+  usernameField: 'id',
+  passwordField: 'pw',
+  session: true,
+  passReqToCallback: false,
+}, function (inputId, inputPw, done) {
+  //console.log(inputId, inputPw);
+  db.collection('login').findOne({ id: inputId }, function (error, result) {
+    if (error) return done(error)
+
+    if (!result) return done(null, false, { message: '존재하지않는 아이디요' })
+    if (inputPw == result.pw) {
+      return done(null, result)
+    } else {
+      return done(null, false, { message: '비번틀렸어요' })
+    }
+  })
+}));
+
+
+
 
 
 MongoClient.connect('mongodb+srv://gabi:1234@cluster0.daut0.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
@@ -115,33 +136,18 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/fail' }),
   res.redirect('/')
 });
 
-app.get('/mypage', function (req, res) {
-  res.render('mypage.ejs')
+app.get('/mypage', loginCheck, function (req, res) {
+  console.log(req.user);
+  res.render('mypage.ejs');
 })
 
-
-
-
-
-passport.use(new LocalStrategy({
-  usernameField: 'id',
-  passwordField: 'pw',
-  session: true,
-  passReqToCallback: false,
-}, function (inputId, inputPw, done) {
-  //console.log(inputId, inputPw);
-  db.collection('login').findOne({ id: inputId }, function (error, result) {
-    if (error) return done(error)
-
-    if (!result) return done(null, false, { message: '존재하지않는 아이디요' })
-    if (inputPw == result.pw) {
-      return done(null, result)
-    } else {
-      return done(null, false, { message: '비번틀렸어요' })
-    }
-  })
-}));
-
+function loginCheck(req, res, next) {
+  if (req.user) {
+    next()
+  } else {
+    res.send("로그인을 해주세요")
+  }
+}
 
 passport.serializeUser(function (user, done) {
   done(null, user.id)
