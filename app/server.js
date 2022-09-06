@@ -14,6 +14,9 @@ const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 
+/* env 환경변수 */
+require('dotenv').config()
+
 /* 로그인 세션 체크 */
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -46,7 +49,7 @@ passport.use(new LocalStrategy({
 
 
 
-MongoClient.connect('mongodb+srv://gabi:1234@cluster0.daut0.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
+MongoClient.connect(process.env.DB_URL, (error, client) => {
   if (error) return console.log(error);
   db = client.db('todoapp');
 
@@ -141,6 +144,12 @@ app.get('/mypage', loginCheck, function (req, res) {
   console.log(req.user);
 })
 
+app.get('/search', (req, res) => {
+  res.render('search.ejs')
+  /* 요청검색어 확인 */
+  console.log(req.query);
+})
+
 function loginCheck(req, res, next) {
   if (req.user) {
     next()
@@ -149,7 +158,7 @@ function loginCheck(req, res, next) {
   }
 }
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user.id)
 });
 
@@ -157,7 +166,7 @@ passport.serializeUser(function (user, done) {
 req.user 정보저장
 deserializeUser가 보내준 그냥 로그인한 유저의 DB 데이터
 */
-passport.deserializeUser(function (아이디, done) {
+passport.deserializeUser((아이디, done) => {
   db.collection('login').findOne({ id: 아이디 }, function (error, result) {
     done(null, result)
   })
