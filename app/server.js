@@ -90,6 +90,27 @@ app.post('/add', (req, res) => {
 
 })
 
+app.get('/register', (req, res) => {
+  res.render('register.ejs')
+})
+
+app.post('/register', (req, res) => {
+
+  db.collection('login').findOne({ id: req.body.id }, (error, result) => {
+    // res.render('edit.ejs', { posts: result })
+    console.log(result);
+    if (result) {
+      res.send('중복 아이디')
+    } else {
+      db.collection('login').insertOne({ id: req.body.id, pw: req.body.pw }, (error, result) => {
+        res.redirect('/')
+      })
+    }
+  })
+
+})
+
+
 /* delete 요청 들어올떄 삭제 */
 app.delete('/delete', (req, res) => {
   req.body.id = parseInt(req.body.id)
@@ -145,9 +166,11 @@ app.get('/mypage', loginCheck, function (req, res) {
 })
 
 app.get('/search', (req, res) => {
-  res.render('search.ejs')
   /* 요청검색어 확인 */
-  console.log(req.query);
+  db.collection('post').find({ $text: { $search: req.query.value } }).toArray((error, result) => {
+    console.log(result);
+    res.render('search.ejs', { posts: result })
+  })
 })
 
 function loginCheck(req, res, next) {
