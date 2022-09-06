@@ -14,6 +14,16 @@ const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs');
 
+/* 로그인 세션 체크 */
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+
+app.use(session({ secret: '비밀코드', resave: true, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 MongoClient.connect('mongodb+srv://gabi:1234@cluster0.daut0.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
   if (error) return console.log(error);
   db = client.db('todoapp');
@@ -84,10 +94,18 @@ app.get('/edit/:id', (req, res) => {
 
 /* 수정하기 */
 
-app.put('/edit', function (req, res) {
+app.put('/edit', (req, res) => {
   console.log(req.body);
-  db.collection('post').updateOne({ id: parseInt(req.body.id) }, { $set: { title: req.body.title, date: req.body.date } }, function () {
+  db.collection('post').updateOne({ id: parseInt(req.body.id) }, { $set: { title: req.body.title, date: req.body.date } }, () => {
     console.log('수정완료');
     res.redirect('/list')
   })
+})
+
+
+app.get('/login', (req, res) => {
+
+  res.render('login.ejs')
+
+
 })
