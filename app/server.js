@@ -137,8 +137,8 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/fail' }),
 });
 
 app.get('/mypage', loginCheck, function (req, res) {
+  res.render('mypage.ejs', { user: req.user });
   console.log(req.user);
-  res.render('mypage.ejs');
 })
 
 function loginCheck(req, res, next) {
@@ -153,7 +153,10 @@ passport.serializeUser(function (user, done) {
   done(null, user.id)
 });
 
-/* req.user 정보저장 */
+/*
+req.user 정보저장
+deserializeUser가 보내준 그냥 로그인한 유저의 DB 데이터
+*/
 passport.deserializeUser(function (아이디, done) {
   db.collection('login').findOne({ id: 아이디 }, function (error, result) {
     done(null, result)
