@@ -37,23 +37,23 @@ app.get('/write', (req, res) => {
 
 /* 글쓰기 전송받음 */
 app.post('/add', (req, res) => {
-  db.collection('counter').findOne({ name: '게시물갯수' }, function (error, result) {
-    let resultTotal = result.totalPost
-    db.collection('post').insertOne({ _id: (resultTotal + 1), title: req.body.title, date: req.body.date }, function () {
-      res.send("전송완료")
-
-      /* counter 콜렉션 내 자료 수정 할때 */
-      db.collection('counter').updateOne({ name: '게시물갯수' }, { $inc: { totalPost: 1 } }, function (error, result) {
-        console.log('수정완료');
-      })
-
-    })
+  res.send("전송완료")
+  db.collection('post').insertOne({ title: req.body.title, date: req.body.date }, function () {
+    console.log('저장완료');
   })
 
 })
 
+
 /* delete 요청 들어올떄 삭제 */
 app.delete('/delete', function (req, res) {
+  console.log('삭제요청', req.body);
+
+  console.log('req.body', req.body);
+  req.body._id = parseInt(req.body._id)
+  db.collection('post').deleteOne(req.body._id, function (error, result) {
+    console.log('삭제완료');
+  })
 
   res.send('삭제완료')
 })

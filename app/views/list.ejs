@@ -24,7 +24,7 @@
     <% for (var i = 0; i < posts.length; i ++) { %>
       <h4>제목 : <%= posts[i].title %></h4>
       <p>내용 : <%= posts[i].date %></p>
-      <button>삭제</button>
+      <button class="delete" data-id="<%= posts[i]._id %>" >삭제</button>
       <p>----------------------------</p>
       <% } %>
 
@@ -34,15 +34,21 @@
 
 
     <script>
-      $.ajax({
+
+      $('.delete').click(function(e){
+        $.ajax({
         method : "POST",
         url : '/add',
-        data : "미미"
+        data : {_id:e.target.dataset.id}
       }).done(function(result){
 
       }).fail(function(error){
 
       })
+
+      })
+
+
     </script>
 
 
