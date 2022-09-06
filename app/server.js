@@ -53,7 +53,6 @@ app.post('/add', (req, res) => {
   })
 })
 
-
 /* delete 요청 들어올떄 삭제 */
 app.delete('/delete', function (req, res) {
   req.body.id = parseInt(req.body.id)
@@ -66,13 +65,22 @@ app.delete('/delete', function (req, res) {
 })
 
 
-
-
 /* list 꺼내기 */
 app.get('/list', function (req, res) {
   db.collection('post').find().toArray(function (error, result) {
     /* ejs 파일 보내기 */
     res.render('list.ejs', { posts: result })
+  })
+})
+
+/* 상세페이지 url 파라미터 */
+app.get('/detail/:id', function (req, res) {
+  /*
+  db post 찾아주고 id 값 받아와서 응답에 render 시킴
+  */
+
+  db.collection('post').findOne({ id: parseInt(req.params.id) }, function (error, result) {
+    res.render('detail.ejs', { data: result })
   })
 })
 
