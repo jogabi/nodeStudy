@@ -37,11 +37,14 @@ app.get('/write', (req, res) => {
 
 /* 글쓰기 전송받음 */
 app.post('/add', (req, res) => {
-  res.send("전송완료")
-  db.collection('post').insertOne({ title: req.body.title, date: req.body.date }, function () {
-    console.log('저장완료');
-  })
 
+  db.collection('counter').findOne({ name: '게시물갯수' }, function (error, result) {
+    let resultPost = parseInt(result.totalPost)
+    db.collection('post').insertOne({ id: resultPost + 1, title: req.body.title, date: req.body.date }, function () {
+      console.log('저장완료');
+      res.send("전송완료")
+    })
+  })
 })
 
 
