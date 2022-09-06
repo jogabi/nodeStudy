@@ -47,10 +47,7 @@ app.post('/add', (req, res) => {
         console.log('total couter 수정 완료');
       })
     })
-
     res.send("전송완료")
-
-
   })
 })
 
@@ -74,14 +71,12 @@ app.get('/list', function (req, res) {
   })
 })
 
-/* 상세페이지 url 파라미터 */
-app.get('/detail/:id', function (req, res) {
-  /*
-  db post 찾아주고 id 값 받아와서 응답에 render 시킴
-  */
+/* edit 상세페이지 */
+app.get('/edit/:id', function (req, res) {
+  /* post 에서 findOne 해서 id parmas 가져옴 */
 
   db.collection('post').findOne({ id: parseInt(req.params.id) }, function (error, result) {
-    res.render('detail.ejs', { data: result })
+    res.render('edit.ejs', { data: result })
   })
-})
 
+})
