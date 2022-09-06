@@ -37,9 +37,20 @@ app.get('/write', (req, res) => {
 
 /* 글쓰기 전송받음 */
 app.post('/add', (req, res) => {
-  db.collection('post').insertOne({ title: req.body.title, date: req.body.date }, function () {
-    res.send("전송완료")
+  db.collection('counter').findOne({ name: '게시물갯수' }, function (error, result) {
+    let resultTotal = result.totalPost
+    db.collection('post').insertOne({ _id: (resultTotal + 1), title: req.body.title, date: req.body.date }, function () {
+      res.send("전송완료")
+
+      /* counter 콜렉션 내 자료 수정 할때 */
+      db.collection('counter').updateOne({ name: '게시물갯수' }, { $inc: { totalPost: 1 } }, function (error, result) {
+        console.log('수정완료');
+      })
+
+    })
   })
+
+
 })
 
 
@@ -47,7 +58,6 @@ app.post('/add', (req, res) => {
 
 app.get('/list', function (req, res) {
   db.collection('post').find().toArray(function (error, result) {
-    console.log(result);
     /* ejs 파일 보내기 */
     res.render('list.ejs', { posts: result })
   })
