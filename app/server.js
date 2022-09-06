@@ -24,6 +24,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+
 MongoClient.connect('mongodb+srv://gabi:1234@cluster0.daut0.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
   if (error) return console.log(error);
   db = client.db('todoapp');
@@ -104,8 +105,44 @@ app.put('/edit', (req, res) => {
 
 
 app.get('/login', (req, res) => {
-
   res.render('login.ejs')
-
-
 })
+
+app.get('/fail', (req, res) => {
+  res.render('fail.ejs')
+})
+app.post('/login', passport.authenticate('local', { failureRedirect: '/fail' }), function (req, res) {
+  res.redirect('/')
+});
+
+
+
+
+
+passport.use(new LocalStrategy({
+  usernameField: 'id',
+  passwordField: 'pw',
+  session: true,
+  passReqToCallback: false,
+}, function (inputId, inputPw, done) {
+  //console.log(inputId, inputPw);
+  db.collection('login').findOne({ id: inputId }, function (error, result) {
+    if (error) return done(error)
+
+    if (!result) return done(null, false, { message: '존재하지않는 아이디요' })
+    if (inputPw == result.pw) {
+      return done(null, result)
+    } else {
+      return done(null, false, { message: '비번틀렸어요' })
+    }
+  })
+}));
+
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id)
+});
+
+passport.deserializeUser(function (아이디, done) {
+  done(null, {})
+});
