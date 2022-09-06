@@ -17,12 +17,19 @@
   </nav>
   <h4 class="container mt-4"><strong>List</strong></h4>
   <div class="container mt-3">
-    <% for (var i = 0; i < posts.length; i ++) { %>
+
+<ul class="list-group">
+
+  <% for (var i = 0; i < posts.length; i ++) { %>
+    <li class="list-group-item">
       <h4>제목 : <%= posts[i].title %></h4>
       <p>내용 : <%= posts[i].date %></p>
       <button class="delete" data-id="<%= posts[i].id %>" >삭제</button>
-      <p>----------------------------</p>
-      <% } %>
+    </li>
+    <% } %>
+
+    </ul>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
