@@ -73,21 +73,16 @@ app.get('/write', (req, res) => {
 })
 
 /* 글쓰기 전송받음 */
-app.post('/add', (req, res) => {
-
+app.post('/add', loginCheck, (req, res) => {
   db.collection('counter').findOne({ name: '게시물갯수' }, (error, result) => {
     let resultPost = parseInt(result.totalPost)
-    db.collection('post').insertOne({ id: resultPost + 1, title: req.body.title, date: req.body.date }, () => {
-
+    db.collection('post').insertOne({ id: resultPost + 1, title: req.body.title, date: req.body.date, name: req.user._id }, () => {
       db.collection('counter').updateOne({ name: '게시물갯수' }, { $inc: { totalPost: 1 } }, (error, result) => {
         console.log('total couter 수정 완료');
       })
     })
     res.render('write.ejs')
-
-
   })
-
 })
 
 app.get('/register', (req, res) => {
