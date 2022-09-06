@@ -115,6 +115,10 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/fail' }),
   res.redirect('/')
 });
 
+app.get('/mypage', function (req, res) {
+  res.render('mypage.ejs')
+})
+
 
 
 
