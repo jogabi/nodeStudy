@@ -31,10 +31,10 @@
         $.ajax({
           method : "DELETE",
           url : '/delete',
-          data : {_id:e.target.dataset.id}
+          data : {id:e.target.dataset.id}
         }).done(function(result){
 
-        }).fail(function(error){
+        }).fail(function(xhr,code,err){
 
         })
       })

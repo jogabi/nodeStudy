@@ -57,8 +57,9 @@ app.post('/add', (req, res) => {
 /* delete 요청 들어올떄 삭제 */
 app.delete('/delete', function (req, res) {
   req.body.id = parseInt(req.body.id)
+
   /* db에서 post 요청을 할 때 deleteOne 을 해줌 */
-  db.collection('post').deleteOne(req.body.id, function (error, result) {
+  db.collection('post').deleteOne(req.body, function (error, result) {
     console.log('삭제완료');
   })
   res.send('삭제완료')
