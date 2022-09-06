@@ -50,12 +50,18 @@ app.post('/add', (req, res) => {
     })
   })
 
+})
 
+/* delete 요청 들어올떄 삭제 */
+app.delete('/delete', function (req, res) {
+
+  res.send('삭제완료')
 })
 
 
-/* list 꺼내기 */
 
+
+/* list 꺼내기 */
 app.get('/list', function (req, res) {
   db.collection('post').find().toArray(function (error, result) {
     /* ejs 파일 보내기 */
