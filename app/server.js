@@ -153,6 +153,9 @@ passport.serializeUser(function (user, done) {
   done(null, user.id)
 });
 
+/* req.user 정보저장 */
 passport.deserializeUser(function (아이디, done) {
-  done(null, {})
+  db.collection('login').findOne({ id: 아이디 }, function (error, result) {
+    done(null, result)
+  })
 });
