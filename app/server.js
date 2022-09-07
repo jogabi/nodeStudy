@@ -4,6 +4,10 @@ const app = express();
 app.use(express.urlencoded({ extended: true }))
 app.use('/public', express.static('public'))
 
+/* 요청과 응답 사이에 실행되는 코드 미들웨어 shop router 적용 */
+app.use('/shop', require('./routes/shop.js'));
+
+
 var db;
 
 /* mongo db */
@@ -106,6 +110,7 @@ app.post('/register', (req, res) => {
 })
 
 
+
 /* delete 요청 들어올떄 삭제 */
 app.delete('/delete', (req, res) => {
   req.body.id = parseInt(req.body.id)
@@ -143,6 +148,10 @@ app.put('/edit', (req, res) => {
   })
 })
 
+app.get('/upload', function (req, res) {
+  res.render('upload.ejs')
+})
+
 
 app.get('/login', (req, res) => {
   res.render('login.ejs')
@@ -167,6 +176,7 @@ app.get('/search', (req, res) => {
     res.render('search.ejs', { posts: result })
   })
 })
+
 
 function loginCheck(req, res, next) {
   if (req.user) {
