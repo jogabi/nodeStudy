@@ -208,6 +208,11 @@ app.post('/upload', upload.single('profile'), function (req, res) {
   res.send('업로드완료')
 })
 
+/* app get image 링크 :id 하면 sendfile 로 이동 */
+app.get('/image/:imgName', function (req, res) {
+  res.sendFile(__dirname + '/public/image/' + req.params.imgName)
+})
+
 
 function loginCheck(req, res, next) {
   if (req.user) {
