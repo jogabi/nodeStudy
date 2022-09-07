@@ -49,6 +49,20 @@ passport.use(new LocalStrategy({
   })
 }));
 
+/* multer 세팅 */
+let multer = require('multer');
+/* diskStorage 업로드 된 파일을 하드에 저장 */
+var storege = multer.diskStorage({
+
+  destination: function (req, file, cb) {
+    cb(null, './public/image')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname) /* 원본그대로 저장 */
+  }
+})
+
+var upload = multer({ storage: storege })
 
 
 
