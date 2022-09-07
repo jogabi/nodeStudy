@@ -169,7 +169,6 @@ app.get('/mypage', loginCheck, function (req, res) {
 app.get('/search', (req, res) => {
   /* 요청검색어 확인 */
   db.collection('post').find({ $text: { $search: req.query.value } }).toArray((error, result) => {
-    console.log(result);
     res.render('search.ejs', { posts: result })
   })
 })

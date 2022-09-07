@@ -20,8 +20,11 @@
       <a href="/edit/<%= posts[i].id %>">
       <h4>제목 : <%= posts[i].title %></h4>
       <p>내용 : <%= posts[i].date %></p>
-      <button class="delete" data-id="<%= posts[i].id %>" >삭제</button>
     </a>
+
+    <div style="clear: both;">
+    <button class="delete" data-id="<%= posts[i].id %>" >삭제</button>
+  </div>
     </li>
     <% } %>
 
@@ -43,7 +46,7 @@
           /*
           현재 버튼의 부모 li를 감춤
           */
-          $(this).parent('li').fadeOut();
+          $(this).parents('li').fadeOut();
         }).fail(function(xhr,code,err){
 
         })
