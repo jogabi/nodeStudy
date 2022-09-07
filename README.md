@@ -1,6 +1,8 @@
 # 실행 방법
 cd app
+
 npm ci
+
 nodemon server.js
 # 결과물 배포 사이트
 
