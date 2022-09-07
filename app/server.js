@@ -137,7 +137,6 @@ app.get('/edit/:id', (req, res) => {
 })
 
 /* 수정하기 */
-
 app.put('/edit', (req, res) => {
   console.log(req.body);
   db.collection('post').updateOne({ id: parseInt(req.body.id) }, { $set: { title: req.body.title, date: req.body.date } }, () => {
