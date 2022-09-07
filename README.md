@@ -40,10 +40,12 @@ Server : nodejs
 const express = require('express');
 const app = express();
 ```
+express가 뭐냐 ; 서버를 매우 쉽게 짤 수 있게 도와주는 라이브러리, 두줄쓰면 서버생성 가능!
 
 ```jsx
 const MongoClient = require('mongodb').MongoClient;
 ```
+MongoDb Client 와 연동
 
 ```jsx
 app.get('해당 url', (req, res) => {
@@ -52,16 +54,20 @@ app.get('해당 url', (req, res) => {
 3	res.sendFile(__dirname + '해당 링크' + req.params.imgName)
 })
 ```
+만들고 싶은 url을 적고 해당 url로 이동 하게되면 만든 페이지가 생성됨
+
 
 ```jsx
 app.post('/register', (req, res) => {
 
 })
 ```
+만들고 싶은 url을 적고 해당 url로 이동 하게되면 만든 페이지가 생성됨
 
 ```jsx
 db.collection('login').findOne({ id: req.body.id }, (error, result) => {  })
 ```
+만들고 싶은 url을 적고 해당 url로 이동 하게되면 만든 페이지가 생성됨
 
 ```jsx
 db.collection('counter').updateOne({ 해당DB 데이터 }, { 바꿔줄데이터 }, (error, result) => {
@@ -69,6 +75,8 @@ db.collection('counter').updateOne({ 해당DB 데이터 }, { 바꿔줄데이터 
 })
 
 ```
+만들고 싶은 url을 적고 해당 url로 이동 하게되면 만든 페이지가 생성됨
+
 
 ```jsx
 app.delete('/delete', (req, res) => {
@@ -79,6 +87,7 @@ app.delete('/delete', (req, res) => {
   res.send('삭제완료')
 })
 ```
+DB Collections post 데이터를 삭제해줌
 
 ```jsx
 /* put수정요청 */
@@ -93,6 +102,7 @@ db.collection('post').updateOne({찾을 데이터}, {바꿔줄 데이터 }, () =
 <form action="/edit?_method=PUT" method="POST">
 </form>
 ```
+코드 수정시 사용했던 라이브러리 action에 붙여주고 해당 DB에 updateOne 을 해줌
 
 # 결론 느낀점
 
