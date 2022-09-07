@@ -49,22 +49,6 @@ passport.use(new LocalStrategy({
   })
 }));
 
-/* multer 세팅 */
-let multer = require('multer');
-/* diskStorage 업로드 된 파일을 하드에 저장 */
-var storege = multer.diskStorage({
-
-  destination: function (req, file, cb) {
-    cb(null, './public/image')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname) /* 원본그대로 저장 */
-  }
-})
-
-var upload = multer({ storage: storege })
-
-
 
 
 MongoClient.connect(process.env.DB_URL, (error, client) => {
@@ -189,6 +173,39 @@ app.get('/search', (req, res) => {
     console.log(result);
     res.render('search.ejs', { posts: result })
   })
+})
+
+
+/* 파일 업로더 multer 세팅 */
+let multer = require('multer');
+var storage = multer.diskStorage({
+
+  destination: function (req, file, cb) {
+    cb(null, './public/image')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+
+});
+
+var path = require('path');
+var upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+      return callback(new Error('PNG, JPG만 업로드하세요'))
+    }
+    callback(null, true)
+  },
+  limits: {
+    fileSize: 1024 * 1024
+  }
+});
+
+app.post('/upload', upload.single('profile'), function (req, res) {
+  res.send('업로드완료')
 })
 
 
