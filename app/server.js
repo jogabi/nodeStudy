@@ -211,6 +211,10 @@ app.get('/image/:imgName', function (req, res) {
   res.sendFile(__dirname + '/public/image/' + req.params.imgName)
 })
 
+app.get('/chat', function (req, res) {
+  res.render('chat.ejs')
+})
+
 var id = mongoose.Types.ObjectId();
 
 
