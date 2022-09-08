@@ -215,6 +215,7 @@ app.get('/chat', function (req, res) {
   res.render('chat.ejs')
 })
 
+
 var id = mongoose.Types.ObjectId();
 
 
