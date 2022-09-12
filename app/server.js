@@ -197,6 +197,21 @@ app.get('/chat', loginCheck, function (req, res) {
   })
 })
 
+app.post('/message', loginCheck, function (req, res) {
+  console.log(req.body);
+  const save = {
+    parent: req.body.parent,
+    userid: req.user._id,
+    content: req.body.content,
+    date: new Date()
+  }
+
+  db.collection('message').insertOne(save).then((result) => {
+    res.send(result)
+  })
+
+})
+
 
 
 /* 파일 업로더 multer 세팅 */
