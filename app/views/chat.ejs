@@ -105,14 +105,23 @@
     })
 
     let clickID
+    let eventSource
     $('.list-group-item').click(function (){
       $(this).css('background-color', '#eee');
-      clickID = $(this).attr('data-id');
+      clickID = this.dataset.id;
 
       eventSource = new EventSource('/message/' + clickID);
-  eventSource.addEventListener('test', function (e){
-    console.log(e.data);
-  });
+      eventSource.addEventListener('test', function (e){
+        console.log('edata',e);
+
+        let getText = JSON.parse(e.data);
+        getText.forEach(a => {
+          $(".chat-content").append(`<li><span class="chat-box">${a.content}</span></li>`)
+
+        });
+
+
+      });
 
     });
   </script>

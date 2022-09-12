@@ -196,6 +196,24 @@ app.get('/chat', loginCheck, function (req, res) {
   })
 })
 
+app.post('/message', loginCheck, function (req, res) {
+
+  const save = {
+    parent: req.body.parent,
+    userid: req.user._id,
+    content: req.body.content,
+    date: new Date()
+  }
+  db.collection('message').insertOne(save).then((result) => {
+    res.send(result)
+  })
+
+
+
+
+})
+
+
 app.post('/message/:parentId', loginCheck, function (req, res) {
 
   res.writeHead(200, {
@@ -204,25 +222,12 @@ app.post('/message/:parentId', loginCheck, function (req, res) {
     "Cache-Control": "no-cache",
   });
 
-
-  const save = {
-    parent: req.body.parent,
-    userid: req.user._id,
-    content: req.body.content,
-    date: new Date()
-  }
-
-  db.collection('message').insertOne(save).then((result) => {
-    res.send(result)
-  })
-
-  db.collection('message').find({ parent: req.body.youId }).toArray().then((result) => {
-    console.log(result);
-    res.write('event: test\n');
-    res.write(`data: ${JSON.stringify(result)}\n\n`);
-  })
-
-
+  db.collection('message').find({ parent: req.params.parentId }).toArray()
+    .then((result) => {
+      console.log(result);
+      res.write('event: test\n');
+      res.write(`data: ${JSON.stringify(result)}\n\n`);
+    });
 
 })
 
