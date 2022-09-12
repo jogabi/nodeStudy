@@ -193,12 +193,18 @@ app.post('/chatroom', loginCheck, function (req, res) {
 app.get('/chat', loginCheck, function (req, res) {
   db.collection('chatroom').find({ member: req.user._id }).toArray().then((result) => {
     res.render('chat.ejs', { data: result })
-
   })
 })
 
-app.post('/message', loginCheck, function (req, res) {
-  console.log(req.body);
+app.post('/message/:parentId', loginCheck, function (req, res) {
+
+  res.writeHead(200, {
+    "Connection": "keep-alive",
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+  });
+
+
   const save = {
     parent: req.body.parent,
     userid: req.user._id,
@@ -209,6 +215,14 @@ app.post('/message', loginCheck, function (req, res) {
   db.collection('message').insertOne(save).then((result) => {
     res.send(result)
   })
+
+  db.collection('message').find({ parent: req.body.youId }).toArray().then((result) => {
+    console.log(result);
+    res.write('event: test\n');
+    res.write(`data: ${JSON.stringify(result)}\n\n`);
+  })
+
+
 
 })
 
