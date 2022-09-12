@@ -173,6 +173,20 @@ app.get('/search', (req, res) => {
   })
 })
 
+/* 채팅방 추가 */
+app.post('/chatroom', loginCheck, function (req, res) {
+  console.log(req.body);
+  let save = {
+    title: req.body.title,
+    member: [mongoose.Types.ObjectId(req.body.youId), req.user._id],
+    date: new Date()
+  }
+  db.collection('chatroom').insertOne(save).then(function (result) {
+    res.send('저장완료')
+  })
+
+})
+
 
 /* 파일 업로더 multer 세팅 */
 let multer = require('multer');
@@ -214,6 +228,8 @@ app.get('/image/:imgName', function (req, res) {
 app.get('/chat', function (req, res) {
   res.render('chat.ejs')
 })
+
+
 
 
 var id = mongoose.Types.ObjectId();
