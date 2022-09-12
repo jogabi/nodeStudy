@@ -173,6 +173,9 @@ app.get('/search', (req, res) => {
   })
 })
 
+
+
+
 /* 채팅방 추가 */
 app.post('/chatroom', loginCheck, function (req, res) {
   console.log(req.body);
@@ -186,6 +189,14 @@ app.post('/chatroom', loginCheck, function (req, res) {
   })
 
 })
+
+app.get('/chat', loginCheck, function (req, res) {
+  db.collection('chatroom').find({ member: req.user._id }).toArray().then((result) => {
+    res.render('chat.ejs', { data: result })
+
+  })
+})
+
 
 
 /* 파일 업로더 multer 세팅 */
@@ -223,10 +234,6 @@ app.post('/upload', upload.single('profile'), function (req, res) {
 /* app get image 링크 :id 하면 sendfile 로 이동 */
 app.get('/image/:imgName', function (req, res) {
   res.sendFile(__dirname + '/public/image/' + req.params.imgName)
-})
-
-app.get('/chat', function (req, res) {
-  res.render('chat.ejs')
 })
 
 
